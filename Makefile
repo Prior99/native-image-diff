@@ -1,8 +1,12 @@
-default: test lint build
+default: build test lint docs
 
 .PHONY: node_modules
 node_modules:
 	yarn install
+
+.PHONY: docs
+docs: node_modules
+	yarn docs
 
 .PHONY: build
 build: node_modules
@@ -19,3 +23,10 @@ lint: node_modules
 .PHONY: clean
 clean:
 	rm -rf dist
+
+.PHONY: release
+release: clean test lint build
+	test `cat package.json | jq ".version"` = '"${VERSION}"'
+	git tag ${VERSION}
+	git push --tags
+	yarn publish

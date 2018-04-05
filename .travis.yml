@@ -1,21 +1,64 @@
 language: node_js
-node_js:
-  - '8'
-
+compiler: gcc
+env:
+  global:
+    - SKIP_BINARY_DOWNLOAD_FOR_CI=true
+jobs:
+  include:
+    - stage: build
+      node_js: "6"
+      os: linux
+    - stage: build
+      node_js: "7"
+      os: linux
+    - stage: build
+      node_js: "8"
+      os: linux
+    - stage: build
+      node_js: "9"
+      os: linux
+    - stage: build
+      node_js: "6"
+      os: osx
+    - stage: build
+      node_js: "7"
+      os: osx
+    - stage: build
+      node_js: "8"
+      os: osx
+    - stage: build
+      node_js: "9"
+      os: osx
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-7
+      - g++-7
+      - make
+      - git
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install make git -qq
   - npm install -g yarn
-
-install:
-  - yarn install
-
+  - if [ $TRAVIS_OS_NAME == "linux" ]; then
+      export CC="gcc-7";
+      export CXX="g++-7";
+      export LINK="gcc-7";
+      export LINKXX="g++-7";
+    fi
+  - node --version
+  - yarn --version
 script:
-  - yarn build
-  - yarn lint
-  - yarn test
-
+  - make
 after_script:
   - "cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
-
 cache: yarn
+deploy:
+  provider: releases
+  api_key:
+    secure: "K/B2fhueAOvTx71V26l1TtUYFr/FXKyb50CgNjRw+VboU/j4GoByQzJCrmyeIFvxs+u+Id4bPCNtkr/kpsK7o9m249nkmlYd3p3OoYzMLTCELvzMuCUFq7Rqzxjo+bZYvA7AS7gqsAh0CfdLlb33ahsF5NU/6ye3kTZka9n3CujMDZm/L8pGwhFuzkodE8dNQT2Qtiu1/LvffK8zCLt47+qnNSKbIah9S961UF0DPWuO7xte0QxPLPKQVlEvpEcVJHb+nIwPGzaQnj4AkA951mMhIf1Xg22u0es//zHkTHuLG908nAiHrbe8smYdgy/IkiIK1JOBrNMI/Cy9NgXFUWlTSyTdcOc61VCP/js3sIPBocG9bB34YjsxPKWLz+ijJwJii5sMlqZr84VVqThIURDaFGPddlzGwO0ApGlutFasI2w70fnsNuS+02vWmlvgBTZXvo6Fl5FKEhQXdSbWtAJc76X+G/U/0uceFUwxoToz0GdGNzTKL1bxh2OvGUGOfSfCpN4Dk2aHbfQBUuTPWhwL6X6z0PK9FYf6B/x/+MS9r91xT5k1AaPwdBvDZh4ehSnXw76u+aKGAG2+VEohqQgUJQvJ5LB49BZhBH+LFiQ1E1yAlmpgok59DtH88PkY8IU6+r1WeYptGiyYPUuuhyaG6eqfHEhuHz/Lf0kDkpQ="
+  file_glob: true
+  file: "native-image-diff-*-*-*.node"
+  skip_cleanup: true
+  on:
+    tags: true

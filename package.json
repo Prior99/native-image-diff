@@ -1,27 +1,34 @@
 {
   "name": "native-image-diff",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A simple library for comparing two images using a native C++ binding.",
   "main": "dist/index.js",
   "author": "Frederick Gnodtke",
   "license": "MIT",
+  "gypfile": true,
   "scripts": {
+    "install": "node scripts/install.js",
+    "prebuild": "node-gyp rebuild -j 8",
     "build": "tsc -p tsconfig-production.json --sourceMap",
-    "test": "jest",
-    "lint": "tslint --format stylish --type-check --project tsconfig.json",
-    "clean": "rm -rf dist"
+    "postbuild": "node scripts/rename.js",
+    "test": "cross-env TZ=UTC jest",
+    "lint": "tslint --format stylish --project tsconfig.json",
+    "clean": "rm -rf dist build",
+    "docs": "typedoc --mode file --out docs/ --exclude '**/test-*.ts' src/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Prior99/jest-screenshot"
+    "url": "https://github.com/Prior99/native-image-diff"
   },
   "files": [
-    "dist",
-    "index.d.ts",
-    "src",
-    "LICENSE",
-    "README.md",
-    "example"
+    "./dist",
+    "./docs",
+    "./images",
+    "./scripts",
+    "./src",
+    "./index.d.ts",
+    "./LICENSE",
+    "./README.md"
   ],
   "jest": {
     "coverageThreshold": {
@@ -47,17 +54,28 @@
       "node_modules",
       "src"
     ],
-    "mapCoverage": true
+    "mapCoverage": true,
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ]
   },
   "devDependencies": {
     "@types/jest": "^21.1.7",
-    "bind-decorator": "^1.0.11",
+    "@types/node": "^9.6.2",
     "coveralls": "^3.0.0",
+    "cross-env": "^5.1.4",
     "jest": "^21.2.1",
+    "nan": "^2.10.0",
+    "node-gyp": "^3.6.2",
+    "node-libpng": "^0.1.2",
     "ts-jest": "^21.2.3",
     "tslint": "^5.8.0",
+    "typedoc": "^0.11.1",
     "typescript": "^2.6.1"
   },
   "dependencies": {
+    "node-fetch": "^2.1.2",
+    "node-sass": "^4.8.3"
   }
 }

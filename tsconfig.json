@@ -6,17 +6,14 @@
         "noImplicitAny": true,
         "removeComments": false,
         "experimentalDecorators": true,
-        "jsx": "react",
         "outDir": "dist",
-        "lib": ["es2016", "node"],
-        "baseUrl": "./src",
-        "emitDecoratorMetadata": true
+        "lib": ["es2016"],
+        "moduleResolution": "node"
     },
     "exclude": [
         "node_modules.",
         "dist/",
         "example/",
-        "index.d.ts",
-        "middleware.d.ts"
+        "index.d.ts"
     ]
 }
