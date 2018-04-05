@@ -85,16 +85,16 @@ NAN_METHOD(imageDiff) {
     // Iterate over every pixel and compare both images.
     for (uint32_t y = 0; y < commonHeight; ++y) {
         for (uint32_t x = 0; x < commonWidth; ++x) {
-            const auto firstIndex = (y * firstWidth + x) * firstBytesPerPixel;
-            const auto secondIndex = (y * secondWidth + x) * secondBytesPerPixel;
-
             // If the current coordinates exceed the first or second image's dimensions, set the delta to absolute maximum.
-            if (x > firstWidth || x > secondWidth || y > firstHeight || y > firstWidth) {
+            if (x >= firstWidth || x >= secondWidth || y >= firstHeight || y >= secondHeight) {
                 totalDelta += maxPossibleDelta;
                 pixels++;
                 drawDiffPixel(diffImage, commonWidth, x, y, 255, 0, 0);
                 continue;
             }
+
+            const auto firstIndex = (y * firstWidth + x) * firstBytesPerPixel;
+            const auto secondIndex = (y * secondWidth + x) * secondBytesPerPixel;
             const auto firstRgb = rgbAt(firstHasAlpha, firstData, firstIndex);
             const auto secondRgb = rgbAt(secondHasAlpha, secondData, secondIndex);
             const auto delta = colorDelta(firstRgb, secondRgb);
