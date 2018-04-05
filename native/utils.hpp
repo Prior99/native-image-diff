@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "colors.hpp"
 
-rgb rgbAt(const bool &hasAlpha, const uint8_t *data, const uint32_t &index);
+ColorRGB rgbAt(const bool hasAlpha, const uint8_t *data, const uint32_t index);
 
 struct ImageMeta {
     const uint8_t *const data;

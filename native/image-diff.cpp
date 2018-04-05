@@ -11,9 +11,9 @@ using namespace node;
 using namespace v8;
 using namespace std;
 
-float colorDelta(const rgb &firstColor, const rgb &secondColor) {
-    const yiq firstYiq(firstColor);
-    const yiq secondYiq(secondColor);
+float colorDelta(const ColorRGB &firstColor, const ColorRGB &secondColor) {
+    const ColorYIQ firstYiq(firstColor);
+    const ColorYIQ secondYiq(secondColor);
     return deltaY(firstYiq.y, secondYiq.y) + deltaI(firstYiq.i, secondYiq.i) + deltaQ(firstYiq.q, secondYiq.q);
 }
 

@@ -6,37 +6,37 @@
 /**
  * Represents a color in RGB colorspace with alpha channel.
  */
-struct rgba {
+struct ColorRGBA {
     float r;
     float g;
     float b;
     float a;
 
-    rgba(const uint8_t *data);
+    ColorRGBA(const uint8_t *data);
 };
 
 /**
  * Represents a color in RGB colorspace.
  */
-struct rgb {
+struct ColorRGB {
     float r;
     float g;
     float b;
 
-    rgb(const uint8_t *data);
+    ColorRGB(const uint8_t *data);
 
     /**
      * Convert a color in RGB colorspace with alpha channel to a color in RGB colorspace without.
      * The alpha channel is not dropped, instead it is blended to white.
      */
-    rgb(const rgba &input);
+    ColorRGB(const ColorRGBA &input);
 };
 
-float rgbToY(const rgb &input);
+float rgbToY(const ColorRGB &input);
 
-float rgbToI(const rgb &input);
+float rgbToI(const ColorRGB &input);
 
-float rgbToQ(const rgb &input);
+float rgbToQ(const ColorRGB &input);
 
 float deltaY(const float &firstY, const float &secondY);
 
@@ -47,7 +47,7 @@ float deltaQ(const float &firstQ, const float &secondQ);
 /**
  * Represents a color in YIQ colorspace.
  */
-struct yiq {
+struct ColorYIQ {
     float y;
     float i;
     float q;
@@ -55,7 +55,7 @@ struct yiq {
     /**
      * Convert a color in RGB colorspace to YIQ colorspace.
      */
-    yiq(const rgb &input);
+    ColorYIQ(const ColorRGB &input);
 };
 
 #endif
