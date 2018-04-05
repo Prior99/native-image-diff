@@ -102,7 +102,7 @@ NAN_METHOD(imageDiff) {
             // If the delta exceeded the accepted maximum difference for a pixel, check for antialiasing.
             if (delta > maxAcceptedDelta) {
                 // If the user decided to take antialiasing into account, check if the pixel was part of antialiasing.
-                if (checkAntialiasing && (isAntialiasing(&firstMeta, &secondMeta, x, y) || isAntialiasing(&secondMeta, &firstMeta, x, y))) {
+                if (checkAntialiasing && compareAntialiasing(firstMeta, secondMeta, x, y)) {
                     // The pixel was part of antialiasing. Write a yellow pixel and continue with the loop.
                     drawDiffPixel(diffImage, commonWidth, x, y, 255, 255, 0);
                     continue;
