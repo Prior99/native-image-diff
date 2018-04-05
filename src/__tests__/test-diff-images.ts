@@ -11,7 +11,7 @@ describe("diffImages", () => {
                 image1,
                 image2,
             });
-            expect(image.data.toString("hex")).toMatchSnapshot();
+            expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/red-and-blue.png`).data);
             expect(pixels).toBe(86);
             expect(totalDelta).toBe(1291946.25);
         });
@@ -37,7 +37,7 @@ describe("diffImages", () => {
                 image1,
                 image2,
             });
-            expect(image.data.toString("hex")).toMatchSnapshot();
+            expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/red-and-blue-with-alpha.png`).data);
             expect(pixels).toBe(81);
             expect(totalDelta).toBe(956607.1875);
         });
@@ -54,7 +54,6 @@ describe("diffImages", () => {
                 checkForAntialiasing: true,
             });
             writePngFileSync("./tmp-lol-1.png", image.data, { width: image.width, height: image.height, alpha: true });
-            expect(image.data.toString("hex")).toMatchSnapshot();
             expect(totalDelta).toBe(0);
             expect(pixels).toBe(0);
         });
@@ -65,12 +64,23 @@ describe("diffImages", () => {
                 image2,
                 checkForAntialiasing: false,
             });
-            writePngFileSync("./tmp-lol-2.png", image.data, { width: image.width, height: image.height, alpha: true });
-            expect(image.data.toString("hex")).toMatchSnapshot();
             expect(totalDelta).toBe(0);
             expect(pixels).toBe(0);
         });
     });
+
+    describe("with different sizes", () => {
+        const image1 = readPngFileSync(`${__dirname}/fixtures/different-sizes-20x20-1.png`);
+        const image2 = readPngFileSync(`${__dirname}/fixtures/different-sizes-30x25-2.png`);
+
+        it("detects the difference", () => {
+            const { image, pixels, totalDelta } = diffImages({ image1, image2 });
+            expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/different-sizes.png`).data);
+            expect(pixels).toBe(350);
+            expect(totalDelta).toBe(12325250);
+        });
+    });
+
     describe("with different thresholds", () => {
         const image1 = readPngFileSync(`${__dirname}/fixtures/threshold-red-100-4x4-1.png`);
         const image2 = readPngFileSync(`${__dirname}/fixtures/threshold-red-110-4x4-2.png`);
@@ -92,7 +102,7 @@ describe("diffImages", () => {
                 image2,
                 colorThreshold: 0.01,
             });
-            expect(image.data.toString("hex")).toMatchSnapshot();
+            expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/threshold-0.01.png`).data);
             expect(totalDelta).toBe(64.0384521484375);
             expect(pixels).toBe(4);
         });
