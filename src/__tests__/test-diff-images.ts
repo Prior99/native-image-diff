@@ -44,8 +44,8 @@ describe("diffImages", () => {
     });
 
     describe("with an antialiased image", () => {
-        const image1 = readPngFileSync(`${__dirname}/fixtures/antialiasing-20x20-1.png`);
-        const image2 = readPngFileSync(`${__dirname}/fixtures/antialiasing-20x20-2.png`);
+        const image1 = readPngFileSync(`${__dirname}/fixtures/antialiasing-75x75-1.png`);
+        const image2 = readPngFileSync(`${__dirname}/fixtures/antialiasing-75x75-2.png`);
 
         it("with antialiasing detection enabled", () => {
             const { image, pixels, totalDelta } = diffImages({
@@ -53,7 +53,7 @@ describe("diffImages", () => {
                 image2,
                 checkForAntialiasing: true,
             });
-            writePngFileSync("./tmp-lol-1.png", image.data, { width: image.width, height: image.height, alpha: true });
+            expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/antialiasing-enabled.png`).data);
             expect(totalDelta).toBe(0);
             expect(pixels).toBe(0);
         });
@@ -64,8 +64,9 @@ describe("diffImages", () => {
                 image2,
                 checkForAntialiasing: false,
             });
-            expect(totalDelta).toBe(0);
-            expect(pixels).toBe(0);
+            expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/antialiasing-disabled.png`).data);
+            expect(totalDelta).toBe(788076.6875);
+            expect(pixels).toBe(265);
         });
     });
 

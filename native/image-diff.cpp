@@ -2,7 +2,6 @@
 #include <cmath>
 #include <algorithm>
 #include <stdint.h>
-#include <iostream>
 #include "image-diff.hpp"
 #include "colors.hpp"
 #include "utils.hpp"
@@ -21,9 +20,9 @@ float colorDelta(const rgb &firstColor, const rgb &secondColor) {
 
 void drawDiffPixel(
     uint8_t *diffImage,
-    const uint32_t &commonWidth,
-    const uint32_t &x,
-    const uint32_t &y,
+    const uint32_t commonWidth,
+    const uint32_t x,
+    const uint32_t y,
     const uint8_t r,
     const uint8_t g,
     const uint8_t b
@@ -60,12 +59,15 @@ NAN_METHOD(imageDiff) {
     // 9th Parameter: Whether to generate an output image.
     const auto generateDiffImage = static_cast<bool>(info[8]->BooleanValue());
     // Computed values.
-    const auto firstBytesPerPixel = firstLength / (firstWidth * firstHeight);
-    const auto secondBytesPerPixel = secondLength / (secondWidth * secondHeight);
+    const uint32_t firstBytesPerPixel = firstLength / (firstWidth * firstHeight);
+    const uint32_t secondBytesPerPixel = secondLength / (secondWidth * secondHeight);
     const auto firstHasAlpha = firstBytesPerPixel == 4;
     const auto secondHasAlpha = secondBytesPerPixel == 4;
     const auto commonWidth = max(firstWidth, secondWidth);
     const auto commonHeight = max(firstHeight, secondHeight);
+    // Initialize metadata structs for both images.
+    const ImageMeta firstMeta = { firstData, firstWidth, firstHeight, firstHasAlpha, firstBytesPerPixel };
+    const ImageMeta secondMeta = { secondData, secondWidth, secondHeight, secondHasAlpha, secondBytesPerPixel };
     // `35215` is the maximum difference betweend two colors in the YIQ colorspace.
     const float maxPossibleDelta = 35215.0f;
     // The max acceptable delta in YIQ color space. 
@@ -81,7 +83,6 @@ NAN_METHOD(imageDiff) {
         diffImage = new uint8_t[diffImageLength];
         for (uint32_t index = 0; index < diffImageLength; ++index) { diffImage[index] = 0; }
     }
-    std::cout << "aliasing " << (checkAntialiasing ? "yes" : "no") << std::endl;
     // Iterate over every pixel and compare both images.
     for (uint32_t y = 0; y < commonHeight; ++y) {
         for (uint32_t x = 0; x < commonWidth; ++x) {
@@ -100,40 +101,13 @@ NAN_METHOD(imageDiff) {
             const auto delta = colorDelta(firstRgb, secondRgb);
             // If the delta exceeded the accepted maximum difference for a pixel, check for antialiasing.
             if (delta > maxAcceptedDelta) {
-                const auto wasAntialiasing = checkAntialiasing && (
-                    isAntialiasing(
-                        firstData,
-                        firstWidth,
-                        firstHeight,
-                        firstHasAlpha,
-                        firstBytesPerPixel,
-                        secondData,
-                        secondWidth,
-                        secondHeight,
-                        secondHasAlpha,
-                        secondBytesPerPixel,
-                        x,
-                        y
-                    ) || isAntialiasing(
-                        secondData,
-                        secondWidth,
-                        secondHeight,
-                        secondHasAlpha,
-                        secondBytesPerPixel,
-                        firstData,
-                        firstWidth,
-                        firstHeight,
-                        firstHasAlpha,
-                        firstBytesPerPixel,
-                        x,
-                        y
-                    )
-                );
-                if (wasAntialiasing) {
-                    std::cout << "Aliased pixel detected" << std::endl;
+                // If the user decided to take antialiasing into account, check if the pixel was part of antialiasing.
+                if (checkAntialiasing && (isAntialiasing(&firstMeta, &secondMeta, x, y) || isAntialiasing(&secondMeta, &firstMeta, x, y))) {
+                    // The pixel was part of antialiasing. Write a yellow pixel and continue with the loop.
                     drawDiffPixel(diffImage, commonWidth, x, y, 255, 255, 0);
                     continue;
                 }
+                // The pixel was not part of antialiasing or the user disabled the check. Draw a red pixel.
                 drawDiffPixel(diffImage, commonWidth, x, y, 255, 0, 0);
                 totalDelta += delta;
                 pixels++;

@@ -1,30 +1,16 @@
 #include <algorithm>
 #include "antialiasing.hpp"
 #include "utils.hpp"
-#include <iostream>
 #include <limits>
 
 using namespace std;
 
-bool isAntialiasing(
-    uint8_t *firstData,
-    const uint32_t &firstWidth,
-    const uint32_t &firstHeight,
-    const bool &firstHasAlpha,
-    const bool &firstBytesPerPixel,
-    uint8_t *secondData,
-    const uint32_t &secondWidth,
-    const uint32_t &secondHeight,
-    const bool &secondHasAlpha,
-    const bool &secondBytesPerPixel,
-    const uint32_t &inputX,
-    const uint32_t &inputY
-) {
+bool isAntialiasing(const ImageMeta *first, const ImageMeta *second, const uint32_t &xInput, const uint32_t &yInput) {
     // The boundaries of all 8 adjacent pixels.
-    const auto xStart = max(inputX - 1, static_cast<uint32_t>(0));
-    const auto xEnd = min(inputX + 1, min(firstWidth, secondWidth) - 1);
-    const auto yStart = max(inputY + 1, static_cast<uint32_t>(0));
-    const auto yEnd = min(inputY + 1, min(firstHeight, secondHeight) - 1);
+    const auto xStart = max(xInput - 1, static_cast<uint32_t>(0));
+    const auto yStart = max(yInput - 1, static_cast<uint32_t>(0));
+    const auto xEnd = min(xInput + 1, first->width - 1);
+    const auto yEnd = min(yInput + 1, first->height - 1);
     // The amount of equal pixels.
     uint32_t equalPixels = 0;
     // The amount of pixels with a positive delta (The other pixel was brighter).
@@ -36,53 +22,51 @@ bool isAntialiasing(
     uint32_t brightestX = 0;
     uint32_t brightestY = 0;
     // The value and coordinates of the darkest pixel.
-    float darkest = numeric_limits<float>::max();
+    float darkest = 0;
     uint32_t darkestX = 0;
     uint32_t darkestY = 0;
 
-    const auto inputIndex = (inputY * firstWidth + inputX) * firstBytesPerPixel;
-    const auto inputBrightness = rgbToY(rgbAt(firstHasAlpha, firstData, inputIndex));
+    const auto inputIndex = (yInput * first->width + xInput) * first->bytesPerPixel;
+    const auto inputBrightness = rgbToY(rgbAt(first->hasAlpha, first->data, inputIndex));
 
     // Iterate over all 8 adjacent pixels.
     for (uint32_t y = yStart; y <= yEnd; ++y) {
         for (uint32_t x = xStart; x <= xEnd; ++x) {
-            const auto currentIndex = (y * firstWidth + x) * firstBytesPerPixel;
+            const auto currentIndex = (y * first->width + x) * first->bytesPerPixel;
             // Only take the surrounding pixels into account, not the pixel we are testing.
-            if (y == inputY && x == inputX) { continue; }
-            const auto currentBrightness = rgbToY(rgbAt(firstHasAlpha, firstData, currentIndex));
-            const auto brightnessDelta = deltaY(inputBrightness, currentBrightness);
+            if (y == yInput && x == xInput) { continue; }
+            const auto currentBrightness = rgbToY(rgbAt(first->hasAlpha, first->data, currentIndex));
+            const auto brightnessDelta = inputBrightness - currentBrightness;
             // Adjust the counters for brighter, darker and equal pixels.
             if (brightnessDelta == 0) { equalPixels++; }
-            else if (brightnessDelta > 0) { brighterPixels++; }
-            else { darkerPixels++; }
+            else if (brightnessDelta < 0) { darkerPixels++; }
+            else { brighterPixels++; }
             // If more than two adjacent pixels were equal, it wasn't antialiasing.
             if (equalPixels > 2) { return false; }
-            if (secondData == nullptr) { continue; }
+            if (second == nullptr) { continue; }
             // Remember the darkest pixel.
             if (brightnessDelta < darkest) {
-                std::cout << "New darkest pixel: " << brightnessDelta << " at " << x << "," << y << std::endl;
                 darkest = brightnessDelta;
                 darkestX = x;
                 darkestY = y;
             }
             // Remember the brightest pixel.
             if (brightnessDelta > brightest) {
-                std::cout << "New brightest pixel: " << brightnessDelta << " at " << x << "," << y << std::endl;
                 brightest = brightnessDelta;
                 brightestX = x;
                 brightestY = y;
             }
         }
     }
-    if (secondData == nullptr) { return true; }
+    if (second == nullptr) { return true; }
     // If there are no darker or brighter adjacent pixels, it's not antialiasing.
     if (brighterPixels == 0 || darkerPixels == 0) { return false; }
     // If either the darkest or the brightest pixel has more than 2 equal adjacent pixels in both images this pixel is antialiasing.
     return (
-        !isAntialiasing(firstData, firstWidth, firstHeight, firstHasAlpha, firstBytesPerPixel, nullptr, secondWidth, secondHeight, secondHasAlpha, secondBytesPerPixel, darkestX, darkestY) &&
-        !isAntialiasing(secondData, firstWidth, firstHeight, firstHasAlpha, firstBytesPerPixel, nullptr, secondWidth, secondHeight, secondHasAlpha, secondBytesPerPixel, darkestX, darkestY)
+        !isAntialiasing(first, nullptr, darkestX, darkestY) &&
+        !isAntialiasing(second, nullptr, darkestX, darkestY)
     ) || (
-        !isAntialiasing(firstData, firstWidth, firstHeight, firstHasAlpha, firstBytesPerPixel, nullptr, secondWidth, secondHeight, secondHasAlpha, secondBytesPerPixel, brightestX, brightestY) &&
-        !isAntialiasing(secondData, firstWidth, firstHeight, firstHasAlpha, firstBytesPerPixel, nullptr, secondWidth, secondHeight, secondHasAlpha, secondBytesPerPixel, brightestX, brightestY)
+        !isAntialiasing(first, nullptr, brightestX, brightestY) &&
+        !isAntialiasing(second, nullptr, brightestX, brightestY)
     );
 }

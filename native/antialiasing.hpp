@@ -2,23 +2,11 @@
 #define ANTIALIASING_HPP
 
 #include <stdint.h>
+#include "utils.hpp"
 
 /**
  * Check if a pixel is likely part of antialiasing.
  */
-bool isAntialiasing(
-    uint8_t *firstData,
-    const uint32_t &firstWidth,
-    const uint32_t &firstHeight,
-    const bool &firstHasAlpha,
-    const bool &firstBytesPerPixel,
-    uint8_t *secondData,
-    const uint32_t &secondWidth,
-    const uint32_t &secondHeight,
-    const bool &secondHasAlpha,
-    const bool &secondBytesPerPixel,
-    const uint32_t &inputX,
-    const uint32_t &inputY
-);
+bool isAntialiasing(const ImageMeta *first, const ImageMeta *second, const uint32_t &inputX, const uint32_t &inputY);
 
 #endif
