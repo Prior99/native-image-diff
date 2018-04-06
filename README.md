@@ -2,7 +2,6 @@
 
 [![npm](https://img.shields.io/npm/v/native-image-diff.svg)](https://www.npmjs.com/package/native-image-diff)
 [![Build Status](https://travis-ci.org/Prior99/native-image-diff.svg?branch=master)](https://travis-ci.org/Prior99/native-image-diff)
-[![Build status](https://ci.appveyor.com/api/projects/status/1dbpcj210jlyv0e1/branch/master?svg=true)](https://ci.appveyor.com/project/Prior99/node-libpng/branch/master)
 [![Build status](https://ci.appveyor.com/api/projects/status/go1birwl4uvqhj49/branch/master?svg=true)](https://ci.appveyor.com/project/Prior99/native-image-diff/branch/master)
 [![Coverage Status](https://coveralls.io/repos/github/Prior99/native-image-diff/badge.svg?branch=master)](https://coveralls.io/github/Prior99/native-image-diff?branch=master)
 
