@@ -13,7 +13,7 @@ describe("diffImages", () => {
             });
             expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/red-and-blue.png`).data);
             expect(pixels).toBe(86);
-            expect(totalDelta).toBe(1291946.25);
+            expect(Math.round(totalDelta)).toBe(1291946);
         });
 
         it("doesn't generate an output image if not desired by the user", () => {
@@ -24,7 +24,7 @@ describe("diffImages", () => {
             });
             expect(image).toBeUndefined();
             expect(pixels).toBe(86);
-            expect(totalDelta).toBe(1291946.25);
+            expect(Math.round(totalDelta)).toBe(1291946);
         });
     });
 
@@ -39,7 +39,7 @@ describe("diffImages", () => {
             });
             expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/red-and-blue-with-alpha.png`).data);
             expect(pixels).toBe(81);
-            expect(totalDelta).toBe(956607.1875);
+            expect(Math.round(totalDelta)).toBe(956607);
         });
     });
 
@@ -54,7 +54,7 @@ describe("diffImages", () => {
                 checkForAntialiasing: true,
             });
             expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/antialiasing-enabled.png`).data);
-            expect(totalDelta).toBe(0);
+            expect(Math.round(totalDelta)).toBe(0);
             expect(pixels).toBe(0);
         });
 
@@ -65,7 +65,7 @@ describe("diffImages", () => {
                 checkForAntialiasing: false,
             });
             expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/antialiasing-disabled.png`).data);
-            expect(totalDelta).toBe(788076.6875);
+            expect(Math.round(totalDelta)).toBe(788077);
             expect(pixels).toBe(265);
         });
     });
@@ -78,7 +78,7 @@ describe("diffImages", () => {
             const { image, pixels, totalDelta } = diffImages({ image1, image2 });
             expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/different-sizes.png`).data);
             expect(pixels).toBe(350);
-            expect(totalDelta).toBe(12325250);
+            expect(Math.round(totalDelta)).toBe(12325250);
         });
     });
 
@@ -92,7 +92,7 @@ describe("diffImages", () => {
                 image2,
                 colorThreshold: 0.05,
             });
-            expect(totalDelta).toBe(0);
+            expect(Math.round(totalDelta)).toBe(0);
             expect(pixels).toBe(0);
             for (let i = 0; i < image.data.length; ++i) { expect(image.data[i]).toBe(0); }
         });
@@ -104,7 +104,7 @@ describe("diffImages", () => {
                 colorThreshold: 0.01,
             });
             expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/threshold-0.01.png`).data);
-            expect(totalDelta).toBe(64.0384521484375);
+            expect(Math.round(totalDelta)).toBe(64);
             expect(pixels).toBe(4);
         });
     });
