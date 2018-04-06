@@ -5,7 +5,8 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/go1birwl4uvqhj49/branch/master?svg=true)](https://ci.appveyor.com/project/Prior99/native-image-diff/branch/master)
 [![Coverage Status](https://coveralls.io/repos/github/Prior99/native-image-diff/badge.svg?branch=master)](https://coveralls.io/github/Prior99/native-image-diff?branch=master)
 
-A simple library for comparing two images using a native C++ binding.
+A simple library for comparing two images using a native C++ binding. This library is highly inspired by the great [pixelmatch](https://github.com/mapbox/pixelmatch).
+In fact, many parts of the algorithms are 1:1 C++ reimplementations.
 
 Please also refer to the **[Documentation](https://prior99.github.io/native-image-diff/docs/index.html)**.
 
@@ -20,8 +21,21 @@ Please also refer to the **[Documentation](https://prior99.github.io/native-imag
         * [The resulting values explained](#the-resulting-values-explained)
         * [Antialiasing Detection](#antialiasing-detection)
         * [Color threshold](#color-threshold)
+    * [Benchmark](#benchmark)
     * [Contributing](#contributing)
     * [Contributors](#contributors)
+
+## Supported environments
+
+This is a native Addon to NodeJS which delivers prebuilt binaries. Only some environments are supported:
+
+| Node Version      | Windows 64-Bit     | Windows 32-Bit     | Linux 64-Bit       | Linux 32-Bit | OSX                |
+|-------------------|--------------------|--------------------|--------------------|--------------|--------------------|
+| Earlier           | -                  | -                  | -                  | -            | -                  |
+| Node 6 *(Abi 48)* | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | -            | :heavy_check_mark: |
+| Node 7 *(Abi 51)* | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | -            | :heavy_check_mark: |
+| Node 8 *(Abi 57)* | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | -            | :heavy_check_mark: |
+| Node 9 *(Abi 59)* | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | -            | :heavy_check_mark: |
 
 ## Usage
 
@@ -199,17 +213,16 @@ Thresholds from 0.0 to 0.7:
 
 ![](images/red-rectangle-example-70-diff.png)
 
-## Supported environments
+## Benchmark
 
-This is a native Addon to NodeJS which delivers prebuilt binaries. Only some environments are supported:
+As it is a native addon, **native-image-diff** is much faster than [pixelmatch](https://github.com/mapbox/pixelmatch):
 
-| Node Version      | Windows 64-Bit     | Windows 32-Bit     | Linux 64-Bit       | Linux 32-Bit | OSX                |
-|-------------------|--------------------|--------------------|--------------------|--------------|--------------------|
-| Earlier           | -                  | -                  | -                  | -            | -                  |
-| Node 6 *(Abi 48)* | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | -            | :heavy_check_mark: |
-| Node 7 *(Abi 51)* | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | -            | :heavy_check_mark: |
-| Node 8 *(Abi 57)* | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | -            | :heavy_check_mark: |
-| Node 9 *(Abi 59)* | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | -            | :heavy_check_mark: |
+The chart below shows the comparison of comparing an 512x512 pixel image between [pixelmatch](https://github.com/mapbox/pixelmatch) and **native-image-diff**.
+The operations per second are displayed (Higher is better).
+
+![diff benchmark](images/benchmark-diff.png)
+
+*(The x-axis scale shows the amount of diffed images per second.)*
 
 ## Contributing
 
