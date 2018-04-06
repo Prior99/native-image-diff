@@ -2,7 +2,7 @@ language: node_js
 compiler: gcc
 env:
   global:
-    - SKIP_BINARY_DOWNLOAD_FOR_CI=true
+    - NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI=true
 jobs:
   include:
     - stage: build

@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
 const fileName = require("./file-name");
 
 if (fs.existsSync(fileName.qualifiedName)) { return; }
-if (process.env["SKIP_BINARY_DOWNLOAD_FOR_CI"]) { return; }
+if (process.env["NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI"]) { return; }
 
 // Get the version of the library;
 const pkg = require(path.resolve(__dirname, "..", "package.json"));
