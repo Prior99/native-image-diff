@@ -62,7 +62,7 @@ function getBytesPerPixel(image: DiffImage): number {
  *
  * @return Whether the given image is of type `DiffImage`.
  */
-function isDiffImage(image: DiffImage): image is DiffImage {
+function isDiffImage(image: any): image is DiffImage {
     if (typeof image !== "object") { return false; }
     const { data, width, height } = image;
     if (!Buffer.isBuffer(data)) { return false; }
@@ -106,31 +106,34 @@ export interface DiffImagesArguments {
     /**
      * Whether to attempt to detect antialiasing when comparing the images. Defaults to `true`.
      */
-    checkForAntialiasing?: boolean;
+    detectAntialiasing?: boolean;
     /**
      * If set to `false` no image visualizing the difference is generated.
      */
     generateDiffImage?: boolean;
 }
 
+export function diffImages(args: DiffImagesArguments): DiffResult;
+export function diffImages(image1: DiffImage, image2: DiffImage): DiffResult;
 /**
  * Compare two images and return the result including meta information and a diff image as a buffer.
  *
  * @return The information about the difference between the two images.
  */
-export function diffImages({
-    image1,
-    image2,
-    colorThreshold,
-    checkForAntialiasing,
-    generateDiffImage,
-}: DiffImagesArguments): DiffResult {
+export function diffImages(arg1: DiffImagesArguments | DiffImage, arg2?: DiffImage): DiffResult {
+    const {
+        image1,
+        image2,
+        colorThreshold,
+        detectAntialiasing,
+        generateDiffImage,
+    } = !isDiffImage(arg1) ? arg1 : { image1: arg1, image2: arg2 } as DiffImagesArguments;
     // Make sure the input is valid.
     if (!isDiffImage(image1) || !isDiffImage(image2)) {
         throw new Error("Provided image wasn't a diffable image.");
     }
     const safeColorThreshold = typeof colorThreshold === "number" ? colorThreshold : 0.1;
-    const safeCheckForAntialiasing = typeof checkForAntialiasing === "boolean" ? checkForAntialiasing : true;
+    const safeDetectAntialiasing = typeof detectAntialiasing === "boolean" ? detectAntialiasing : true;
     const safeGenerateDiffImage = typeof generateDiffImage === "boolean" ? generateDiffImage : true;
     // Call the native module.
     const { pixels, totalDelta, imageData: data } = __native_imageDiff(
@@ -141,7 +144,7 @@ export function diffImages({
         image2.width,
         image2.height,
         safeColorThreshold,
-        safeCheckForAntialiasing,
+        safeDetectAntialiasing,
         safeGenerateDiffImage,
     );
     if (safeGenerateDiffImage) {

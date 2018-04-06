@@ -16,6 +16,13 @@ describe("diffImages", () => {
             expect(Math.round(totalDelta)).toBe(1291946);
         });
 
+        it("diffs the two images as expected with alternative invocation", () => {
+            const { image, pixels, totalDelta } = diffImages(image1, image2);
+            expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/red-and-blue.png`).data);
+            expect(pixels).toBe(86);
+            expect(Math.round(totalDelta)).toBe(1291946);
+        });
+
         it("doesn't generate an output image if not desired by the user", () => {
             const { image, pixels, totalDelta } = diffImages({
                 image1,
@@ -51,7 +58,7 @@ describe("diffImages", () => {
             const { image, pixels, totalDelta } = diffImages({
                 image1,
                 image2,
-                checkForAntialiasing: true,
+                detectAntialiasing: true,
             });
             expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/antialiasing-enabled.png`).data);
             expect(Math.round(totalDelta)).toBe(0);
@@ -62,7 +69,7 @@ describe("diffImages", () => {
             const { image, pixels, totalDelta } = diffImages({
                 image1,
                 image2,
-                checkForAntialiasing: false,
+                detectAntialiasing: false,
             });
             expect(image.data).toEqual(readPngFileSync(`${__dirname}/diffs/antialiasing-disabled.png`).data);
             expect(Math.round(totalDelta)).toBe(788077);

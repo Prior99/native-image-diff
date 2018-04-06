@@ -1,0 +1,7 @@
+{
+  "name": "native-image-diff-example",
+  "dependencies": {
+    "native-image-diff": "file:..",
+    "node-libpng": "^0.2.0"
+  }
+}
