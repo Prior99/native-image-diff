@@ -70,14 +70,15 @@ const image2 = {
 };
 
 const { image, pixels, totalDelta } = diffImages(image1, image2);
-// `image` now containes the width and the height of an RGBA image
+// `image` now contains the width and the height of an RGBA image
 // visualizing the difference between `image1` and `image2`.
-// `pixels` is the amount of pixels which didn't match.
-// `totalDelta` is a relatively scaled number with higher values being
-// the most different and `0` being total equal.
+// `pixels` is the number of pixels which didn't match.
+// `totalDelta` is a number denoting the relative difference
+// between the images with higher values being
+// the more different and `0` being entirely equal.
 ```
 
-The two buffers in `image1` and `image2` are expected to contain an RGB or RGBA encoded 8bit image. In the above example an RGB image was used.
+The two buffers in `image1` and `image2` are expected to contain an RGB or RGBA encoded 8-bit image. In the above example an RGB image was used.
 
 Both images will be compared pixel-per-pixel and the result as well as a visualization of the difference is returned.
 
@@ -124,23 +125,23 @@ A result might look like this:
 
 #### pixels
 
-This represents the total amount of pixels differing between both images.
+This represents the total number of pixels differing between both images.
 
 #### totalDelta
 
 This is the summed up total perceived difference of all pixels. It grows with the color difference of every unmatched pixel.
 
 In comparison to the [pixels](https://prior99.github.io/native-image-diff/docs/interfaces/diffresult.html#pixels) property this property also represents how different all colors were. Comparing a white image
-with a black image would yield a higher difference as comparing an orange with a red image.
+with a black image would yield a higher difference than comparing an orange with a red image.
 
 It doesn't feature any specific unit and should be used for relative comparisons only.
 
 #### image
 
-This property is only generate if [generateDiffImage](https://prior99.github.io/native-image-diff/docs/interfaces/diffimagesarguments.html#generatediffimage) is set to `true` (default).
+This property is only generated if [generateDiffImage](https://prior99.github.io/native-image-diff/docs/interfaces/diffimagesarguments.html#generatediffimage) is set to `true` (default).
 
-It's properties `width` and `height` represent the dimensions of the generated image in pixels and `data` holds a RGBA buffer
-of raw image data showing the visual difference between both input images. Different pixels are drawn in red and pixels which
+Its properties `width` and `height` represent the dimensions of the generated image in pixels and `data` holds a RGBA buffer
+of raw image data showing the visual difference between both input images. Different pixels are drawn in red, and pixels which
 only differed between both images because of antialiasing will be drawn in yellow. This is only true if [detectAntialiasing](https://prior99.github.io/native-image-diff/docs/interfaces/diffimagesarguments.html#detectantialiasing)
 is set to `true` (default).
 
@@ -226,7 +227,7 @@ The operations per second are displayed (Higher is better).
 
 ## Contributing
 
-Yarn is used instead of npm, so make sure it is installed, probably: `npm install -g yarn`.
+Yarn is used instead of npm, so make sure it is installed. `npm install -g yarn`.
 
 Generally, it should be enough to just run:
 
