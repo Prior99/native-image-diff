@@ -223,7 +223,7 @@ The operations per second are displayed (Higher is better).
 
 ![diff benchmark](images/benchmark-diff.png)
 
-*(The x-axis scale shows the amount of diffed images per second.)*
+*(The x-axis scale shows the number of diffed images per second.)*
 
 ## Contributing
 
