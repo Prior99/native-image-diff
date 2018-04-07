@@ -1,4 +1,4 @@
-const benchmarkDiff = require("./with-antialiasing-detection");
+const benchmarkDiff = require("./diff");
 
 benchmarkDiff()
     .then(() => console.log("Done."));

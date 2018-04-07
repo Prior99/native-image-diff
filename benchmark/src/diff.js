@@ -9,6 +9,8 @@ module.exports = () => new Promise(resolve => {
     const image1 = NodeLibpng.readPngFileSync(`${__dirname}/../../images/rainbow-1.png`);
     const image2 = NodeLibpng.readPngFileSync(`${__dirname}/../../images/rainbow-2.png`);
     const suite = new Benchmark.Suite();
+    console.log(image1, image2)
+            NativeImageDiff.diffImages(image1, image2);
     suite
         .add("native-image-diff", () => {
             NativeImageDiff.diffImages(image1, image2);
