@@ -1,6 +1,6 @@
 {
   "name": "native-image-diff",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A simple library for comparing two images using a native C++ binding.",
   "main": "dist/index.js",
   "author": "Frederick Gnodtke",
