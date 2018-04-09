@@ -11,6 +11,10 @@ const pkg = require(path.resolve(__dirname, "..", "package.json"));
 const packageVersion = pkg.version;
 const url = `https://github.com/Prior99/native-image-diff/releases/download/${packageVersion}/${fileName.baseName}`;
 
+console.info(`Downloading native-image-diff prebuilt binary from "${url}".`);
+
+const destination = fs.createWriteStream(fileName.qualifiedName);
+
 request.get(url)
     .on("error", err => { throw err; })
     .on("response", response => {
