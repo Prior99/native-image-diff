@@ -1,1 +1,7 @@
-export { diffImages } from "./diff-images";
+export {
+    Dimensions,
+    DiffImage,
+    DiffResult,
+    DiffImagesArguments,
+    diffImages,
+} from "./diff-images";
