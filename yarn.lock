@@ -2212,9 +2212,9 @@ node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
 
-node-libpng@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/node-libpng/-/node-libpng-0.1.2.tgz#9824ff505ce79290220af6fac0f3dd6851151d51"
+node-libpng@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/node-libpng/-/node-libpng-0.2.3.tgz#9e0d94575597774dfa74779376ee68e892a6a58b"
   dependencies:
     request "^2.85.0"
 
