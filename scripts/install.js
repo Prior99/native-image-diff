@@ -9,7 +9,8 @@ if (process.env["NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI"]) { return; }
 // Get the version of the library;
 const pkg = require(path.resolve(__dirname, "..", "package.json"));
 const packageVersion = pkg.version;
-const url = `https://github.com/Prior99/native-image-diff/releases/download/${packageVersion}/${fileName.baseName}`;
+const binarySite = process.env.NID_BINARY_SITE || "https://github.com/Prior99/native-image-diff/releases/download";
+const url = `${binarySite}/${packageVersion}/${fileName.baseName}`;
 
 console.info(`Downloading native-image-diff prebuilt binary from "${url}".`);
 
