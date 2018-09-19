@@ -5,8 +5,8 @@ const fileName = require("./file-name");
 
 if (fs.existsSync(fileName.qualifiedName)) { return; }
 if (
-  process.env['NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI'] ||
-  process.env.npm_config_native_image_diff_skip_binary_download_for_ci
+  process.env["NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI"] ||
+  process.env["npm_config_native_image_diff_skip_binary_download_for_ci"]
 ) {
   return;
 }
@@ -15,9 +15,9 @@ if (
 const pkg = require(path.resolve(__dirname, "..", "package.json"));
 const packageVersion = pkg.version;
 const baseUrl =
-  process.env.NATIVE_IMAGE_DIFF_BINARY_URL ||
-  process.env.npm_config_native_image_diff_binary_url ||
-  'https://github.com/Prior99/native-image-diff/releases/download';
+  process.env["NATIVE_IMAGE_DIFF_BINARY_URL"] ||
+  process.env["npm_config_native_image_diff_binary_url"] ||
+  "https://github.com/Prior99/native-image-diff/releases/download";
 const url = `${baseUrl}/${packageVersion}/${fileName.baseName}`;
 
 console.info(`Downloading native-image-diff prebuilt binary from "${url}".`);
