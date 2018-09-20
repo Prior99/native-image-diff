@@ -7,7 +7,7 @@
     "comparison",
     "visual"
   ],
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A simple library for comparing two images using a native C++ binding.",
   "main": "dist/index.js",
   "author": "Frederick Gnodtke",
