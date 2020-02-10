@@ -2,75 +2,54 @@ language: node_js
 compiler: gcc
 env:
   global:
-    - NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI=true
+  - NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI=true
+  - secure: Gcpp1pwnwTJ/UmTF0VZtex9q8q4asJAoNImXNUbDkBaJMLn3rdHYdiiXErmVcx8924GuDeCcxTH0KS1owVmnaEMbOmhTLlh7ywNPviXkHRpr45TMsnhj0sKuCFNVy4G0GP+Edu6eOEBzCa5vOJ1B2ptj9whi1v1P032GXShzbWKOgtJR1J21EwvnhHjTxdCc39hCbtodqeHjTcczMClP8o50gjMdzAyNRjcMI2MARMIrgMPqbUzPHrcEoE3DBC+i+AWpcLY5iRyXo/RwcJxYjy2hUmSQMzlNmxExO8+cFVo8yQA3QU3qOTNL+c55OoARU+IwpeVsSFXRfhlKWFFCIlP02GoDU9K9CLNOR5Sx5NDkjldGz1KYUMDWTSMhVhH0XqyziM4fKHw+bmbZ2Z9qqZRgnLFunCiaM2L8RC7tzGo/voPsaHZB9SlBWVkPpvuF32IQl9cqYWgbiVOIHvPZ0EdlF9MHBKST8xc7FyFnMtsWkr05SPp7dg1ZCCI/2XbnP49Y4MiWeiQq8rno/OTUEaZCQVJuCqbx4/sBER1aHff6DP2Peu7wGPECcX6lickU9otvtGnMfM1U6Ig3q82mF8UHkcqWel0bB2BHEZMT1sfZI+kV/P7GLylFEfIuKBMAUXCZAWRWyLq1AcmkLM5na0nql43qLhs+EJAJCGxF2vU=
 jobs:
   include:
-    - stage: build
-      node_js: "6"
-      os: linux
-    - stage: build
-      node_js: "7"
-      os: linux
-    - stage: build
-      node_js: "8"
-      os: linux
-    - stage: build
-      node_js: "9"
-      os: linux
-    - stage: build
-      node_js: "10"
-      os: linux
-    - stage: build
-      node_js: "11"
-      os: linux
-    - stage: build
-      node_js: "6"
-      os: osx
-    - stage: build
-      node_js: "7"
-      os: osx
-    - stage: build
-      node_js: "8"
-      os: osx
-    - stage: build
-      node_js: "9"
-      os: osx
-    - stage: build
-      node_js: "10"
-      os: osx
-    - stage: build
-      node_js: "11"
-      os: osx
+  - stage: build
+    node_js: '10'
+    os: linux
+  - stage: build
+    node_js: '11'
+    os: linux
+  - stage: build
+    node_js: '12'
+    os: linux
+  - stage: build
+    node_js: '10'
+    os: osx
+  - stage: build
+    node_js: '11'
+    os: osx
+  - stage: build
+    node_js: '12'
+    os: osx
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - gcc-7
-      - g++-7
-      - make
-      - git
+    - gcc-7
+    - g++-7
+    - make
+    - git
 before_install:
-  - npm install -g yarn
-  - if [ $TRAVIS_OS_NAME == "linux" ]; then
-      export CC="gcc-7";
-      export CXX="g++-7";
-      export LINK="gcc-7";
-      export LINKXX="g++-7";
-    fi
-  - node --version
-  - yarn --version
+- npm install -g yarn
+- if [ $TRAVIS_OS_NAME == "linux" ]; then export CC="gcc-7"; export CXX="g++-7"; export
+  LINK="gcc-7"; export LINKXX="g++-7"; fi
+- node --version
+- yarn --version
 script:
-  - make
+- make
 after_script:
-  - "cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+- cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 cache: yarn
 deploy:
   provider: releases
   api_key:
-    secure: "K/B2fhueAOvTx71V26l1TtUYFr/FXKyb50CgNjRw+VboU/j4GoByQzJCrmyeIFvxs+u+Id4bPCNtkr/kpsK7o9m249nkmlYd3p3OoYzMLTCELvzMuCUFq7Rqzxjo+bZYvA7AS7gqsAh0CfdLlb33ahsF5NU/6ye3kTZka9n3CujMDZm/L8pGwhFuzkodE8dNQT2Qtiu1/LvffK8zCLt47+qnNSKbIah9S961UF0DPWuO7xte0QxPLPKQVlEvpEcVJHb+nIwPGzaQnj4AkA951mMhIf1Xg22u0es//zHkTHuLG908nAiHrbe8smYdgy/IkiIK1JOBrNMI/Cy9NgXFUWlTSyTdcOc61VCP/js3sIPBocG9bB34YjsxPKWLz+ijJwJii5sMlqZr84VVqThIURDaFGPddlzGwO0ApGlutFasI2w70fnsNuS+02vWmlvgBTZXvo6Fl5FKEhQXdSbWtAJc76X+G/U/0uceFUwxoToz0GdGNzTKL1bxh2OvGUGOfSfCpN4Dk2aHbfQBUuTPWhwL6X6z0PK9FYf6B/x/+MS9r91xT5k1AaPwdBvDZh4ehSnXw76u+aKGAG2+VEohqQgUJQvJ5LB49BZhBH+LFiQ1E1yAlmpgok59DtH88PkY8IU6+r1WeYptGiyYPUuuhyaG6eqfHEhuHz/Lf0kDkpQ="
+    secure: "PhU84FTXNHjKnv8fJqiJitEONiXeNH9aD5CTE1QP6BPdsvmtKsidj8jqo4SgxSSWsheQgpTJRD9PYRbFPzlpsS9dZsW7MuAq7Tf/j30JAajMaA8cTedjLryh7uq36rerlk+ilx5LyEKlLB+tsMsjVKA9UhCFwoRcRchTjFHgTv8LyB228OUr9aK7ycd8daVGQQIvLS4IIzUNH2sJ3tfTIk8Q0ey2fj+ZZ+kaAaHrE25vfRDgljEr+bgnRu/M+6OGGqzFrqwOOBnGOWBOSIcsDzW+z76wWQSDsVDVvSawvu0gsgcvMNrKxb17REunJbfFAM1Sqyp4XgW3V86t2CuxksKeheu9gBUDvHWpXAMlrIkiX4BpcEkO6TD+0+YfYNS/MkbQ+mugv1xob9G1lEXPvWVMt+2V7uxWa3mYW/OKWsIlB0xpMBaR8Cuxn6r7msWc5BvNC/JqQm3ScMHYSd5sGFeKk9lP3UT/JNwOvdsk8OlHAOFoBVr/z8ZMMUiqzGRFxF1nqwpqfJVmhTD0mij6lO2uTmbu2sr9FFxlcp9aNqia+1SB0vTQuC0Hggp7DjIb5L7ms9jjDe3Ui8qW6BiWFrJWhWsIh/1gheti4dsT7lBEYGvbEICoOeXfl3kyoZc13kzZYPcozi7Tbe9ZoIAHlptFqw4EKo4MEUFun6m1f7s="
   file_glob: true
-  file: "native-image-diff-*-*-*.node"
+  file: native-image-diff-*-*-*.node
   skip_cleanup: true
   on:
     tags: true

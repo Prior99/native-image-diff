@@ -41,23 +41,23 @@ NAN_METHOD(imageDiff) {
     auto firstLength = Buffer::Length(firstBuffer);
     auto *firstData = reinterpret_cast<uint8_t*>(Buffer::Data(firstBuffer));
     // 2nd Parameter: The first image's width.
-    const auto firstWidth = static_cast<uint32_t>(info[1]->NumberValue());
+    const auto firstWidth = static_cast<uint32_t>(Nan::To<uint32_t>(info[1]).ToChecked());
     // 3rd Parameter: The first image's height.
-    const auto firstHeight = static_cast<uint32_t>(info[2]->NumberValue());
+    const auto firstHeight = static_cast<uint32_t>(Nan::To<uint32_t>(info[2]).ToChecked());
     // 4th Parameter: The second image's buffer.
     Local<Object> secondBuffer = Local<Object>::Cast(info[3]);
     auto secondLength = Buffer::Length(secondBuffer);
     auto *secondData = reinterpret_cast<uint8_t*>(Buffer::Data(secondBuffer));
     // 5th Parameter: The second image's width.
-    const auto secondWidth = static_cast<uint32_t>(info[4]->NumberValue());
+    const auto secondWidth = static_cast<uint32_t>(Nan::To<uint32_t>(info[4]).ToChecked());
     // 6th Parameter: The second image's height.
-    const auto secondHeight = static_cast<uint32_t>(info[5]->NumberValue());
+    const auto secondHeight = static_cast<uint32_t>(Nan::To<uint32_t>(info[5]).ToChecked());
     // 7th Parameter: The color threshold per pixel.
-    const auto colorThreshold = static_cast<float>(info[6]->NumberValue());
+    const auto colorThreshold = static_cast<float>(Nan::To<double>(info[6]).ToChecked());
     // 8th Parameter: Whether to check for antialiasing.
-    const auto checkAntialiasing = static_cast<bool>(info[7]->BooleanValue());
+    const auto checkAntialiasing = static_cast<bool>(Nan::To<bool>(info[7]).ToChecked());
     // 9th Parameter: Whether to generate an output image.
-    const auto generateDiffImage = static_cast<bool>(info[8]->BooleanValue());
+    const auto generateDiffImage = static_cast<bool>(Nan::To<bool>(info[8]).ToChecked());
     // Computed values.
     const uint32_t firstBytesPerPixel = firstLength / (firstWidth * firstHeight);
     const uint32_t secondBytesPerPixel = secondLength / (secondWidth * secondHeight);
@@ -125,5 +125,5 @@ NAN_METHOD(imageDiff) {
 }
 
 NAN_MODULE_INIT(InitImageDiff) {
-    target->Set(Nan::New("__native_imageDiff").ToLocalChecked(), Nan::New<FunctionTemplate>(imageDiff)->GetFunction());
+    target->Set(Nan::New("__native_imageDiff").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(imageDiff)).ToLocalChecked());
 }
