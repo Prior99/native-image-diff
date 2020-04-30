@@ -34,6 +34,12 @@
       - nodejs_version: 12
         GYP_MSVS_VERSION: 2015
         APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      - nodejs_version: 13
+        GYP_MSVS_VERSION: 2015
+        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      - nodejs_version: 14
+        GYP_MSVS_VERSION: 2015
+        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
   install:
     - git submodule update --init --recursive
     - ps: Install-Product node $env:nodejs_version $env:platform
@@ -91,6 +97,12 @@
         GYP_MSVS_VERSION: 2015
         APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       - nodejs_version: 12
+        GYP_MSVS_VERSION: 2015
+        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      - nodejs_version: 13
+        GYP_MSVS_VERSION: 2015
+        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      - nodejs_version: 14
         GYP_MSVS_VERSION: 2015
         APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
   install:

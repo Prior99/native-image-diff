@@ -116,14 +116,14 @@ NAN_METHOD(imageDiff) {
     }
     // Return the calculated result.
     Local<Object> returnValue = Nan::New<Object>();
-    returnValue->Set(Nan::New("pixels").ToLocalChecked(), Nan::New(static_cast<double>(pixels)));
-    returnValue->Set(Nan::New("totalDelta").ToLocalChecked(), Nan::New(static_cast<double>(totalDelta)));
+    Nan::Set(returnValue, Nan::New("pixels").ToLocalChecked(), Nan::New(static_cast<double>(pixels)));
+    Nan::Set(returnValue, Nan::New("totalDelta").ToLocalChecked(), Nan::New(static_cast<double>(totalDelta)));
     if (generateDiffImage) {
-        returnValue->Set(Nan::New("imageData").ToLocalChecked(), Nan::NewBuffer(reinterpret_cast<char*>(diffImage), diffImageLength).ToLocalChecked());
+        Nan::Set(returnValue, Nan::New("imageData").ToLocalChecked(), Nan::NewBuffer(reinterpret_cast<char*>(diffImage), diffImageLength).ToLocalChecked());
     }
     info.GetReturnValue().Set(returnValue);
 }
 
 NAN_MODULE_INIT(InitImageDiff) {
-    target->Set(Nan::New("__native_imageDiff").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(imageDiff)).ToLocalChecked());
+    Nan::Set(target, Nan::New("__native_imageDiff").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(imageDiff)).ToLocalChecked());
 }

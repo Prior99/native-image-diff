@@ -35,6 +35,8 @@ This is a native Addon to NodeJS which delivers prebuilt binaries. Only some env
 | Node 10 *(Abi 64)* | ✓                  | ✓                  | ✓                  | ✗            | ✓                  |
 | Node 11 *(Abi 67)* | ✓                  | ✓                  | ✓                  | ✗            | ✓                  |
 | Node 12 *(Abi 72)* | ✓                  | ✓                  | ✓                  | ✗            | ✓                  |
+| Node 13 *(Abi 79)* | ✓                  | ✓                  | ✓                  | ✗            | ✓                  |
+| Node 14 *(Abi 83)* | ✓                  | ✓                  | ✓                  | ✗            | ✓                  |
 
 ## Usage
 
