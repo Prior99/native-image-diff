@@ -7,7 +7,7 @@
     "comparison",
     "visual"
   ],
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A simple library for comparing two images using a native C++ binding.",
   "main": "dist/index.js",
   "author": "Frederick Gnodtke",
@@ -74,7 +74,7 @@
     "jest": "^25.1.0",
     "nan": "^2.14.1",
     "node-gyp": "^6.1.0",
-    "node-libpng": "^0.2.14",
+    "node-libpng": "^0.2.18",
     "ts-jest": "^25.2.0",
     "tslint": "^6.0.0",
     "typedoc": "^0.16.9",
