@@ -9,7 +9,7 @@
   "devDependencies": {},
   "dependencies": {
     "benchmark": "^2.1.4",
-    "chart.js": "2.6",
+    "chart.js": "2.9",
     "chartjs-node": "^1.6.1",
     "native-image-diff": "file:..",
     "node-libpng": "^0.2.0",
