@@ -10,37 +10,31 @@ jobs:
     node_js: '10'
     os: linux
   - stage: build
-    node_js: '11'
-    os: linux
-  - stage: build
     node_js: '12'
-    os: linux
-  - stage: build
-    node_js: '13'
     os: linux
   - stage: build
     node_js: '14'
     os: linux
   - stage: build
     node_js: '15'
+    os: linux
+  - stage: build
+    node_js: '16'
     os: linux
   - stage: build
     node_js: '10'
     os: osx
   - stage: build
-    node_js: '11'
-    os: osx
-  - stage: build
     node_js: '12'
-    os: osx
-  - stage: build
-    node_js: '13'
     os: osx
   - stage: build
     node_js: '14'
     os: osx
   - stage: build
     node_js: '15'
+    os: osx
+  - stage: build
+    node_js: '16'
     os: osx
 addons:
   apt:
