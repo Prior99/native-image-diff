@@ -32,7 +32,7 @@ This is a native Addon to NodeJS which delivers prebuilt binaries. Only some env
 | Node Version       | Windows 64-Bit     | Windows 32-Bit     | Linux 64-Bit       | Linux 32-Bit | OSX                |
 |--------------------|--------------------|--------------------|--------------------|--------------|--------------------|
 | Earlier            | ✗                  | ✗                  | ✗                  | ✗            | ✗                  |
-| Node 10 *(Abi 64)* | ✓                  | ✓                  | ✓                  | ✗            | ✓                  |
+| Node 10 *(Abi 64)* | ✗                  | ✗                  | ✗                  | ✗            | ✗                  |
 | Node 11 *(Abi 67)* | ✗                  | ✗                  | ✗                  | ✗            | ✗                  |
 | Node 12 *(Abi 72)* | ✓                  | ✓                  | ✓                  | ✗            | ✓                  |
 | Node 13 *(Abi 79)* | ✗                  | ✗                  | ✗                  | ✗            | ✗                  |

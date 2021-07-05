@@ -7,9 +7,6 @@ env:
 jobs:
   include:
   - stage: build
-    node_js: '10'
-    os: linux
-  - stage: build
     node_js: '12'
     os: linux
   - stage: build
@@ -21,9 +18,6 @@ jobs:
   - stage: build
     node_js: '16'
     os: linux
-  - stage: build
-    node_js: '10'
-    os: osx
   - stage: build
     node_js: '12'
     os: osx
