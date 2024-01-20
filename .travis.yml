@@ -1,16 +1,29 @@
 dist: focal
-osx_image: xcode13.1
 language: node_js
 compiler: gcc
 env:
   global:
     - NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI=true
-    - NODE_LIBPNG_BINARY_URL=https://downloads.mailbutler.io/node/node-libpng
-    # - secure: Gcpp1pwnwTJ/UmTF0VZtex9q8q4asJAoNImXNUbDkBaJMLn3rdHYdiiXErmVcx8924GuDeCcxTH0KS1owVmnaEMbOmhTLlh7ywNPviXkHRpr45TMsnhj0sKuCFNVy4G0GP+Edu6eOEBzCa5vOJ1B2ptj9whi1v1P032GXShzbWKOgtJR1J21EwvnhHjTxdCc39hCbtodqeHjTcczMClP8o50gjMdzAyNRjcMI2MARMIrgMPqbUzPHrcEoE3DBC+i+AWpcLY5iRyXo/RwcJxYjy2hUmSQMzlNmxExO8+cFVo8yQA3QU3qOTNL+c55OoARU+IwpeVsSFXRfhlKWFFCIlP02GoDU9K9CLNOR5Sx5NDkjldGz1KYUMDWTSMhVhH0XqyziM4fKHw+bmbZ2Z9qqZRgnLFunCiaM2L8RC7tzGo/voPsaHZB9SlBWVkPpvuF32IQl9cqYWgbiVOIHvPZ0EdlF9MHBKST8xc7FyFnMtsWkr05SPp7dg1ZCCI/2XbnP49Y4MiWeiQq8rno/OTUEaZCQVJuCqbx4/sBER1aHff6DP2Peu7wGPECcX6lickU9otvtGnMfM1U6Ig3q82mF8UHkcqWel0bB2BHEZMT1sfZI+kV/P7GLylFEfIuKBMAUXCZAWRWyLq1AcmkLM5na0nql43qLhs+EJAJCGxF2vU=
+    - secure: Gcpp1pwnwTJ/UmTF0VZtex9q8q4asJAoNImXNUbDkBaJMLn3rdHYdiiXErmVcx8924GuDeCcxTH0KS1owVmnaEMbOmhTLlh7ywNPviXkHRpr45TMsnhj0sKuCFNVy4G0GP+Edu6eOEBzCa5vOJ1B2ptj9whi1v1P032GXShzbWKOgtJR1J21EwvnhHjTxdCc39hCbtodqeHjTcczMClP8o50gjMdzAyNRjcMI2MARMIrgMPqbUzPHrcEoE3DBC+i+AWpcLY5iRyXo/RwcJxYjy2hUmSQMzlNmxExO8+cFVo8yQA3QU3qOTNL+c55OoARU+IwpeVsSFXRfhlKWFFCIlP02GoDU9K9CLNOR5Sx5NDkjldGz1KYUMDWTSMhVhH0XqyziM4fKHw+bmbZ2Z9qqZRgnLFunCiaM2L8RC7tzGo/voPsaHZB9SlBWVkPpvuF32IQl9cqYWgbiVOIHvPZ0EdlF9MHBKST8xc7FyFnMtsWkr05SPp7dg1ZCCI/2XbnP49Y4MiWeiQq8rno/OTUEaZCQVJuCqbx4/sBER1aHff6DP2Peu7wGPECcX6lickU9otvtGnMfM1U6Ig3q82mF8UHkcqWel0bB2BHEZMT1sfZI+kV/P7GLylFEfIuKBMAUXCZAWRWyLq1AcmkLM5na0nql43qLhs+EJAJCGxF2vU=
 jobs:
   include:
     - stage: build
-      node_js: "16"
+      node_js: "10"
+      os: linux
+    - stage: build
+      node_js: "11"
+      os: linux
+    - stage: build
+      node_js: "12"
+      os: linux
+    - stage: build
+      node_js: "13"
+      os: linux
+    - stage: build
+      node_js: "14"
+      os: linux
+    - stage: build
+      node_js: "15"
       os: linux
     - stage: build
       node_js: "18"
@@ -19,9 +32,23 @@ jobs:
       node_js: "20"
       os: linux
     - stage: build
-      node_js: "16"
+      node_js: "10"
       os: osx
-      osx_image: xcode13.1
+    - stage: build
+      node_js: "11"
+      os: osx
+    - stage: build
+      node_js: "12"
+      os: osx
+    - stage: build
+      node_js: "13"
+      os: osx
+    - stage: build
+      node_js: "14"
+      os: osx
+    - stage: build
+      node_js: "15"
+      os: osx
     - stage: build
       node_js: "18"
       os: osx
@@ -47,13 +74,13 @@ before_install:
   - yarn --version
 script:
   - make
-# after_script:
-#   - cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+after_script:
+  - cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 cache: yarn
 deploy:
   provider: releases
   api_key:
-    secure: "j2zLZAQPjq3wbfUT2sKlM3vQ2iUc4uLNIiwcfsnT+PVLILizI0fdGPbjA+RfVYyHF+N2BPVFz7f+XUGt48wIYWR2jT0QhJI3cdVMv1KeawyQZahbVp8BEtNjr9rD3sn4b6F4UXmgJhVYwVDaa8nu5d/gzYQ8q2/w7YXi6T2Z5CvM71cM5plK9nFJViP2C+WY2RjadXwDxUaUEcxYnHNa233lH6NO/Wd+FZJo1G9JWTOy5z+hrmcmKS0VDe0WsMGGj2bookdz+u8UMC5iMUcjOA9d0mV7HVNFDnzwSZMIDbQmrKexOxl60NjsDA5xgUpCN0S1+YnADoZrJHeOtMUrCYsFvGl9k35sUC2NUSqynLXI7Ttv4XoOGqapaiWKksZD+1RPYLdjlX6wi9Nr/RyJEfDm9ho9Lx9eWBXU8W4ruYDA8RoZBW77Pnvq40VIQD9zm/q4Ths35tyF30gN4fMB6Z8mFdBKpQhnoOdxf6jyv46HWgQMGxQwoZ8OoUM7jKHtggLLGE4DTHVYgPRBYmp6XLAc3yQI0mQeOQNVB55pb1ZXLx+MrcURiixH/WKKc/O8vvzoOnMDzmcwiZeQps5pApMxZSl8yqtrdEc2MhQ3cOqWv5vmi3IIT6J/PixAoR//isc7da+iRuPeFULTtF8xKStaOLb0g/SZEn0pClhqVuU="
+    secure: "PhU84FTXNHjKnv8fJqiJitEONiXeNH9aD5CTE1QP6BPdsvmtKsidj8jqo4SgxSSWsheQgpTJRD9PYRbFPzlpsS9dZsW7MuAq7Tf/j30JAajMaA8cTedjLryh7uq36rerlk+ilx5LyEKlLB+tsMsjVKA9UhCFwoRcRchTjFHgTv8LyB228OUr9aK7ycd8daVGQQIvLS4IIzUNH2sJ3tfTIk8Q0ey2fj+ZZ+kaAaHrE25vfRDgljEr+bgnRu/M+6OGGqzFrqwOOBnGOWBOSIcsDzW+z76wWQSDsVDVvSawvu0gsgcvMNrKxb17REunJbfFAM1Sqyp4XgW3V86t2CuxksKeheu9gBUDvHWpXAMlrIkiX4BpcEkO6TD+0+YfYNS/MkbQ+mugv1xob9G1lEXPvWVMt+2V7uxWa3mYW/OKWsIlB0xpMBaR8Cuxn6r7msWc5BvNC/JqQm3ScMHYSd5sGFeKk9lP3UT/JNwOvdsk8OlHAOFoBVr/z8ZMMUiqzGRFxF1nqwpqfJVmhTD0mij6lO2uTmbu2sr9FFxlcp9aNqia+1SB0vTQuC0Hggp7DjIb5L7ms9jjDe3Ui8qW6BiWFrJWhWsIh/1gheti4dsT7lBEYGvbEICoOeXfl3kyoZc13kzZYPcozi7Tbe9ZoIAHlptFqw4EKo4MEUFun6m1f7s="
   file_glob: true
   file: native-image-diff-*-*-*.node
   skip_cleanup: true
