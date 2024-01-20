@@ -17,9 +17,11 @@ jobs:
     - stage: build
       node_js: "16"
       os: osx
+      osx_image: xcode13.1
     - stage: build
       node_js: "18"
       os: osx
+      osx_image: xcode13.1
 addons:
   apt:
     sources:
