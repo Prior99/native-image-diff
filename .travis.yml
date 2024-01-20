@@ -56,5 +56,3 @@ deploy:
   file_glob: true
   file: native-image-diff-*-*-*.node
   skip_cleanup: true
-  on:
-    tags: true
