@@ -20,7 +20,7 @@ const baseUrl =
   process.env['NATIVE_IMAGE_DIFF_BINARY_URL'] ||
   process.env['npm_config_native_image_diff_binary_url'] ||
   `${pkg.repository.url}/releases/download`;
-const url = `${baseUrl}/v${packageVersion}/${fileName.baseName}`;
+const url = `${baseUrl}/${packageVersion}/${fileName.baseName}`;
 
 console.info(`Downloading native-image-diff prebuilt binary from "${url}".`);
 
