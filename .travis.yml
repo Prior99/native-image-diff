@@ -1,66 +1,81 @@
+dist: focal
 language: node_js
 compiler: gcc
 env:
   global:
-  - NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI=true
-  - secure: Gcpp1pwnwTJ/UmTF0VZtex9q8q4asJAoNImXNUbDkBaJMLn3rdHYdiiXErmVcx8924GuDeCcxTH0KS1owVmnaEMbOmhTLlh7ywNPviXkHRpr45TMsnhj0sKuCFNVy4G0GP+Edu6eOEBzCa5vOJ1B2ptj9whi1v1P032GXShzbWKOgtJR1J21EwvnhHjTxdCc39hCbtodqeHjTcczMClP8o50gjMdzAyNRjcMI2MARMIrgMPqbUzPHrcEoE3DBC+i+AWpcLY5iRyXo/RwcJxYjy2hUmSQMzlNmxExO8+cFVo8yQA3QU3qOTNL+c55OoARU+IwpeVsSFXRfhlKWFFCIlP02GoDU9K9CLNOR5Sx5NDkjldGz1KYUMDWTSMhVhH0XqyziM4fKHw+bmbZ2Z9qqZRgnLFunCiaM2L8RC7tzGo/voPsaHZB9SlBWVkPpvuF32IQl9cqYWgbiVOIHvPZ0EdlF9MHBKST8xc7FyFnMtsWkr05SPp7dg1ZCCI/2XbnP49Y4MiWeiQq8rno/OTUEaZCQVJuCqbx4/sBER1aHff6DP2Peu7wGPECcX6lickU9otvtGnMfM1U6Ig3q82mF8UHkcqWel0bB2BHEZMT1sfZI+kV/P7GLylFEfIuKBMAUXCZAWRWyLq1AcmkLM5na0nql43qLhs+EJAJCGxF2vU=
+    - NATIVE_IMAGE_DIFF_SKIP_BINARY_DOWNLOAD_FOR_CI=true
+    - secure: Gcpp1pwnwTJ/UmTF0VZtex9q8q4asJAoNImXNUbDkBaJMLn3rdHYdiiXErmVcx8924GuDeCcxTH0KS1owVmnaEMbOmhTLlh7ywNPviXkHRpr45TMsnhj0sKuCFNVy4G0GP+Edu6eOEBzCa5vOJ1B2ptj9whi1v1P032GXShzbWKOgtJR1J21EwvnhHjTxdCc39hCbtodqeHjTcczMClP8o50gjMdzAyNRjcMI2MARMIrgMPqbUzPHrcEoE3DBC+i+AWpcLY5iRyXo/RwcJxYjy2hUmSQMzlNmxExO8+cFVo8yQA3QU3qOTNL+c55OoARU+IwpeVsSFXRfhlKWFFCIlP02GoDU9K9CLNOR5Sx5NDkjldGz1KYUMDWTSMhVhH0XqyziM4fKHw+bmbZ2Z9qqZRgnLFunCiaM2L8RC7tzGo/voPsaHZB9SlBWVkPpvuF32IQl9cqYWgbiVOIHvPZ0EdlF9MHBKST8xc7FyFnMtsWkr05SPp7dg1ZCCI/2XbnP49Y4MiWeiQq8rno/OTUEaZCQVJuCqbx4/sBER1aHff6DP2Peu7wGPECcX6lickU9otvtGnMfM1U6Ig3q82mF8UHkcqWel0bB2BHEZMT1sfZI+kV/P7GLylFEfIuKBMAUXCZAWRWyLq1AcmkLM5na0nql43qLhs+EJAJCGxF2vU=
 jobs:
   include:
-  - stage: build
-    node_js: '10'
-    os: linux
-  - stage: build
-    node_js: '11'
-    os: linux
-  - stage: build
-    node_js: '12'
-    os: linux
-  - stage: build
-    node_js: '13'
-    os: linux
-  - stage: build
-    node_js: '14'
-    os: linux
-  - stage: build
-    node_js: '15'
-    os: linux
-  - stage: build
-    node_js: '10'
-    os: osx
-  - stage: build
-    node_js: '11'
-    os: osx
-  - stage: build
-    node_js: '12'
-    os: osx
-  - stage: build
-    node_js: '13'
-    os: osx
-  - stage: build
-    node_js: '14'
-    os: osx
-  - stage: build
-    node_js: '15'
-    os: osx
+    - stage: build
+      node_js: "10"
+      os: linux
+    - stage: build
+      node_js: "11"
+      os: linux
+    - stage: build
+      node_js: "12"
+      os: linux
+    - stage: build
+      node_js: "13"
+      os: linux
+    - stage: build
+      node_js: "14"
+      os: linux
+    - stage: build
+      node_js: "15"
+      os: linux
+    - stage: build
+      node_js: "18"
+      os: linux
+    - stage: build
+      node_js: "20"
+      os: linux
+    - stage: build
+      node_js: "10"
+      os: osx
+    - stage: build
+      node_js: "11"
+      os: osx
+    - stage: build
+      node_js: "12"
+      os: osx
+    - stage: build
+      node_js: "13"
+      os: osx
+    - stage: build
+      node_js: "14"
+      os: osx
+    - stage: build
+      node_js: "15"
+      os: osx
+    - stage: build
+      node_js: "18"
+      os: osx
+      osx_image: xcode13.1
+    - stage: build
+      node_js: "20"
+      os: osx
+      osx_image: xcode13.1
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-test
     packages:
-    - gcc-7
-    - g++-7
-    - make
-    - git
+      - gcc-7
+      - g++-7
+      - make
+      - git
 before_install:
-- npm install -g yarn
-- if [ $TRAVIS_OS_NAME == "linux" ]; then export CC="gcc-7"; export CXX="g++-7"; export
-  LINK="gcc-7"; export LINKXX="g++-7"; fi
-- node --version
-- yarn --version
+  - npm install -g yarn
+  - if [ $TRAVIS_OS_NAME == "linux" ]; then export CC="gcc-7"; export CXX="g++-7"; export
+    LINK="gcc-7"; export LINKXX="g++-7"; fi
+  - node --version
+  - yarn --version
 script:
-- make
+  - make
 after_script:
-- cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 cache: yarn
 deploy:
   provider: releases
