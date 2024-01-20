@@ -15,7 +15,7 @@
   "gypfile": true,
   "scripts": {
     "install": "node scripts/install.js",
-    "prebuild": "node-gyp rebuild -j 8",
+    "prebuild": "CFLAGS=\"-Wno-error=implicit-function-declaration\" node-gyp rebuild -j 8",
     "build": "tsc -p tsconfig-production.json --sourceMap",
     "postbuild": "node scripts/rename.js",
     "test": "cross-env TZ=UTC jest",
